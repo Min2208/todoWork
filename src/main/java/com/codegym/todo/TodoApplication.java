@@ -71,8 +71,8 @@ public class TodoApplication implements CommandLineRunner {
 		@Override
 		public void addFormatters(FormatterRegistry registry) {
 			StatusService statusService = appContext.getBean(StatusService.class);
-			Formatter locationFormatter = new StatusFormatter(statusService);
-			registry.addFormatter(locationFormatter);
+			Formatter statusFormatter = new StatusFormatter(statusService);
+			registry.addFormatter(statusFormatter);
 		}
 
 

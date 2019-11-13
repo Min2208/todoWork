@@ -24,11 +24,13 @@ public class Work {
 
     public Work(){}
 
+
     public Work(String workName, Date startDate, Date endDate) {
         this.workName = workName;
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
 
     public String getWorkName() {
         return workName;
@@ -61,5 +63,13 @@ public class Work {
     public void setStatus(Status status) {
         this.status = status;
     }
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 
 }
