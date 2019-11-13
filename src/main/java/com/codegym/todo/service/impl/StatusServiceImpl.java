@@ -1,38 +1,47 @@
 package com.codegym.todo.service.impl;
 
 import com.codegym.todo.model.Status;
+import com.codegym.todo.repository.StatusRepository;
 import com.codegym.todo.service.StatusService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public class StatusServiceImpl implements StatusService {
+
+    @Autowired
+    private StatusRepository statusRepository;
+
+
     @Override
-    public Page<Status> findAll(Pageable pageable) {
-        return null;
+    public List<Status> findAll() {
+        return (List<Status>) statusRepository.findAll();
     }
 
     @Override
     public Status findById(Long id) {
-        return null;
+        return statusRepository.findById(id).get();
     }
 
     @Override
     public Status save(Status status) {
-        return null;
+        return statusRepository.save(status);
     }
 
     @Override
-    public Long count() {
-        return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-
+    public void deleteById(Long id) {
+        statusRepository.deleteById(id);
     }
 
     @Override
     public void delete(Status status) {
+        statusRepository.delete(status);
+    }
 
+    @Override
+    public Status findByName(String name) {
+        return statusRepository.findByName(name);
     }
 }
