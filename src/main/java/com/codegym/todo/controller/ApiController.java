@@ -50,6 +50,23 @@ public class ApiController {
     }
 
 
+    @RequestMapping(value = "/todo/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<Work> updateCustomer(@PathVariable("id") long id,@Validated @RequestBody Work work) {
+
+        Work currentWork= workService.findById(id);
+
+        if (currentWork == null) {
+            return new ResponseEntity<Work>(HttpStatus.NOT_FOUND);
+        }
+
+        currentWork.setWorkName(work.getWorkName());
+        currentWork.setStartDate(work.getStartDate());
+        currentWork.setEndDate(work.getEndDate());
+        currentWork.setStatus(work.getStatus());
+
+        workService.save(currentWork);
+        return new ResponseEntity<Work>(currentWork, HttpStatus.OK);
+    }
 
 
 
