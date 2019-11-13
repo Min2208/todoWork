@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,9 +22,11 @@ public class ApiController {
     private WorkService workService;
 
 
-    @RequestMapping(value = "/todo", method = RequestMethod.GET)
-    public ResponseEntity<Page<Work>> listWorks() {
-        Pageable pageable = new PageRequest(0, 2);
+    @RequestMapping(value = "/todo", params = {"page", "size", "sort"}, method = RequestMethod.GET)
+    public ResponseEntity<Page<Work>> listWorks(@RequestParam("page") int page,
+                                                @RequestParam("size") int size,
+                                                @RequestParam("sort") String sort) {
+        Pageable pageable = new PageRequest(page, size, Sort.by(sort));
         Page<Work> works = workService.findAll(pageable);
 
         if (works.isEmpty()) {
@@ -55,9 +58,9 @@ public class ApiController {
 
 
     @RequestMapping(value = "/todo/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Work> updateCustomer(@PathVariable("id") long id,@Validated @RequestBody Work work) {
+    public ResponseEntity<Work> updateCustomer(@PathVariable("id") long id, @Validated @RequestBody Work work) {
 
-        Work currentWork= workService.findById(id);
+        Work currentWork = workService.findById(id);
 
         if (currentWork == null) {
             return new ResponseEntity<Work>(HttpStatus.NOT_FOUND);
