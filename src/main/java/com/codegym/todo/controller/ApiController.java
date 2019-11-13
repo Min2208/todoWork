@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 public class ApiController {
@@ -18,7 +21,7 @@ public class ApiController {
     private WorkService workService;
 
     @ResponseBody
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    @RequestMapping(value = "/todo", method = RequestMethod.GET)
     public ResponseEntity<Page<Work>> listWorks() {
         Pageable pageable = new PageRequest(0, 2);
         Page<Work> works = workService.findAll(pageable);
@@ -29,7 +32,7 @@ public class ApiController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/home/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/todo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Work> getWork(@PathVariable long id) {
         Work work = workService.findById(id);
         if (work == null) {
@@ -37,6 +40,18 @@ public class ApiController {
         }
         return new ResponseEntity<Work>(work, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/todo", method = RequestMethod.POST)
+    public ResponseEntity<Void> createCustomer(@Validated @RequestBody Work work, UriComponentsBuilder ucBuilder) {
+        workService.save(work);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/todo/{id}").buildAndExpand(work.getId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+    }
+
+
+
+
 
 
 }
