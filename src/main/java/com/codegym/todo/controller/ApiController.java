@@ -20,24 +20,28 @@ public class ApiController {
     @Autowired
     private WorkService workService;
 
-    @ResponseBody
+
     @RequestMapping(value = "/todo", method = RequestMethod.GET)
     public ResponseEntity<Page<Work>> listWorks() {
         Pageable pageable = new PageRequest(0, 2);
         Page<Work> works = workService.findAll(pageable);
+
         if (works.isEmpty()) {
             return new ResponseEntity<Page<Work>>(HttpStatus.NO_CONTENT);
         }
+
         return new ResponseEntity<Page<Work>>(works, HttpStatus.OK);
     }
 
-    @ResponseBody
+
     @RequestMapping(value = "/todo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Work> getWork(@PathVariable long id) {
         Work work = workService.findById(id);
+
         if (work == null) {
             return new ResponseEntity<Work>(HttpStatus.NOT_FOUND);
         }
+
         return new ResponseEntity<Work>(work, HttpStatus.OK);
     }
 
@@ -68,7 +72,16 @@ public class ApiController {
         return new ResponseEntity<Work>(currentWork, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/todo/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Work> deleteCustomer(@PathVariable("id") long id) {
+        Work work = workService.findById(id);
 
+        if (work == null) {
+            return new ResponseEntity<Work>(HttpStatus.NOT_FOUND);
+        }
 
+        workService.deleteById(id);
+        return new ResponseEntity<Work>(HttpStatus.NO_CONTENT);
+    }
 
 }
