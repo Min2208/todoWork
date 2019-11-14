@@ -38,7 +38,7 @@ public class ApiController {
 
 
     @RequestMapping(value = "/todo/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Work> getWork(@PathVariable long id) {
+    public ResponseEntity<Work> getTodoWork(@PathVariable long id) {
         Work work = workService.findById(id);
 
         if (work == null) {
@@ -49,7 +49,7 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/todo", method = RequestMethod.POST)
-    public ResponseEntity<Void> createCustomer(@Validated @RequestBody Work work, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Void> addTodoWork(@Validated @RequestBody Work work, UriComponentsBuilder ucBuilder) {
         workService.save(work);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/todo/{id}").buildAndExpand(work.getId()).toUri());
@@ -58,7 +58,7 @@ public class ApiController {
 
 
     @RequestMapping(value = "/todo/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Work> updateCustomer(@PathVariable("id") long id, @Validated @RequestBody Work work) {
+    public ResponseEntity<Work> updateTodoWork(@PathVariable("id") long id, @Validated @RequestBody Work work) {
 
         Work currentWork = workService.findById(id);
 
@@ -76,7 +76,7 @@ public class ApiController {
     }
 
     @RequestMapping(value = "/todo/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Work> deleteCustomer(@PathVariable("id") long id) {
+    public ResponseEntity<Work> deleteTodoWork(@PathVariable("id") long id) {
         Work work = workService.findById(id);
 
         if (work == null) {
