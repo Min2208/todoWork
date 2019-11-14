@@ -17,5 +17,6 @@ public interface WorkService {
 
     void delete(Work work);
 
+    Work findByName(String name);
 
 }

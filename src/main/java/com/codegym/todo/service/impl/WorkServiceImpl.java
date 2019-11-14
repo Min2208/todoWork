@@ -40,4 +40,9 @@ public class WorkServiceImpl implements WorkService {
     public void delete(Work work) {
         workRepository.delete(work);
     }
+
+    @Override
+    public Work findByName(String name) {
+        return workRepository.findByWorkNameContains(name);
+    }
 }

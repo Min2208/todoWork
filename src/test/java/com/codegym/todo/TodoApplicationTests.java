@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Date;
 
@@ -44,6 +45,7 @@ public class TodoApplicationTests {
     @Test
     public void verifyAllToDoList() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/todo?page=0&size=3&sort=workName").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 
@@ -57,13 +59,14 @@ public class TodoApplicationTests {
 
     @Test
     public void verifyDeleteToDo() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/todo/15").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/todo/13").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
     @Test
     public void verifyInvalidToDoIdToDelete() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/todo/13").accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.errorCode").value(404))
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 
@@ -71,17 +74,17 @@ public class TodoApplicationTests {
     public void verifyUpdateToDo() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/todo/14")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{ \"workName\": \"Java\", \"startDate\" : \"2019-11-20\", \"endDate\" : \"2019-11-25\" ,\"status\" : \"{\"id\" : \"1\"}\" }")
+                .content("{ \"workName\": \"Java\", \"startDate\" : \"2019-11-20\", \"endDate\" : \"2019-11-25\", \"status\": {\"id\": \"3\", \"name\": \"Complete\"}}")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
     }
 
 
     @Test
-    public void verifyMalformedSaveToDo() throws Exception {
+    public void verifyAddToDo() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/todo")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{ \"workName\": \"Java\", \"startDate\" : \"2019-11-20\", \"endDate\" : \"2019-11-25\" ,\"status\" : \"{\"id\" : \"1\",\"name\" : \"Planning\"}\" }")
+                .content("{ \"workName\": \"Java Web\", \"startDate\" : \"2019-11-20\", \"endDate\" : \"2019-11-25\" ,\"status\": {\"id\": \"3\", \"name\": \"Complete\"} }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
     }
