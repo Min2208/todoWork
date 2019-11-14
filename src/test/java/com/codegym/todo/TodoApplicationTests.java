@@ -71,13 +71,20 @@ public class TodoApplicationTests {
     public void verifyUpdateToDo() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/todo/14")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{'workName' : 'Java', 'startDate': '2019-11-15','endDate': '2019-11-15'}")
+                .content("{ \"workName\": \"Java\", \"startDate\" : \"2019-11-20\", \"endDate\" : \"2019-11-25\" ,\"status\" : \"{\"id\" : \"1\"}\" }")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
     }
 
 
-
+    @Test
+    public void verifyMalformedSaveToDo() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/todo")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{ \"workName\": \"Java\", \"startDate\" : \"2019-11-20\", \"endDate\" : \"2019-11-25\" ,\"status\" : \"{\"id\" : \"1\",\"name\" : \"Planning\"}\" }")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+    }
 
 
 
