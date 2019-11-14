@@ -41,6 +41,11 @@ public class TodoApplicationTests {
 
     }
 
+    @Test
+    public void verifyAllToDoList() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/todo?page=0&size=3&sort=workName").accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+    }
 
     @Test
     public void verifyToDoById() throws Exception {
@@ -49,5 +54,9 @@ public class TodoApplicationTests {
                 .andExpect(jsonPath("$.workName").exists())
                 .andDo(print());
     }
+
+
+
+
 
 }
