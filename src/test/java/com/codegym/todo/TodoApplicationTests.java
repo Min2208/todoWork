@@ -60,6 +60,21 @@ public class TodoApplicationTests {
         mockMvc.perform(MockMvcRequestBuilders.delete("/todo/15").accept(MediaType.APPLICATION_JSON))
                 .andDo(print());
     }
+    @Test
+    public void verifyInvalidToDoIdToDelete() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/todo/13").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.errorCode").value(404))
+                .andDo(print());
+    }
+
+    @Test
+    public void verifyUpdateToDo() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/todo/14")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{'workName' : 'Java', 'startDate': '2019-11-15','endDate': '2019-11-15'}")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+    }
 
 
 
