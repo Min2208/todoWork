@@ -55,6 +55,13 @@ public class TodoApplicationTests {
                 .andDo(print());
     }
 
+    @Test
+    public void verifyDeleteToDo() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/todo/15").accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+    }
+
+
 
 
 
