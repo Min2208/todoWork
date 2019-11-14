@@ -17,6 +17,11 @@ public class Status {
         this.name = name;
     }
 
+    public Status(int i, String planning) {
+        this.id = i;
+        this.name = planning;
+    }
+
     public long getId() {
         return id;
     }

@@ -25,10 +25,11 @@ public class Work {
     public Work(){}
 
 
-    public Work(String workName, Date startDate, Date endDate) {
+    public Work(String workName, Date startDate, Date endDate, Status status) {
         this.workName = workName;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.status = status;
     }
 
 

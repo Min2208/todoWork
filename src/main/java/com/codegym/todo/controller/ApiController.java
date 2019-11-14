@@ -84,7 +84,7 @@ public class ApiController {
         }
 
         workService.deleteById(id);
-        return new ResponseEntity<Work>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<Work>(HttpStatus.OK);
     }
 
 }
