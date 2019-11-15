@@ -43,14 +43,14 @@ public class TodoApplicationTests {
     }
 
     @Test
-    public void verifyAllToDoList() throws Exception {
+    public void verifyFindAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/todo?page=0&size=3&sort=workName").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
-    public void verifyToDoById() throws Exception {
+    public void verifyFindById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/todo/12").accept(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.workName").exists())
